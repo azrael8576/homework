@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class Tester {
     private static Ticket ticket;
     public static void main(String[] args) {
-        System.out.println("\n*********Java*********");
+        System.out.println("\n*********Java*********\n");
 
         inputTicket();
         System.out.println("Total tickets: " + ticket.getTotal());
@@ -32,26 +32,30 @@ public class Tester {
         int total;
         int roundTrip;
         System.out.println("Please enter number of tickets:");
-        while (true){
-            Scanner scanner = new Scanner(System.in);
-            if (scanner.hasNextInt()) {
-                total = scanner.nextInt();
-                if (total < 0) System.out.println("Error,please enter again.");
-                else break;
-            }
-            else System.out.println("Error,please enter again.");
-        }
+        total = checkNumber();
         System.out.println("How many round-trip tickets:");
+        while (true) {
+            roundTrip = checkNumber();
+            if (roundTrip <= total){
+                break;
+            }
+            else System.out.println("Error,please enter again.");
+        }
+        ticket = new Ticket(total,roundTrip);
+    }
+
+    //確認Input是否大於0且為數字
+    private static int checkNumber() {
+        int number;
         while (true){
             Scanner scanner = new Scanner(System.in);
             if (scanner.hasNextInt()) {
-                roundTrip = scanner.nextInt();
-                if (roundTrip < 0) System.out.println("Error,please enter again.");
+                number = scanner.nextInt();
+                if (number < 0) System.out.println("Error,please enter again.");
                 else break;
             }
             else System.out.println("Error,please enter again.");
         }
-        
-        ticket = new Ticket(total,roundTrip);
+        return number;
     }
 }

@@ -17,7 +17,45 @@ Total: 7400
 
 
  */
+var ticket : ticketKotlin? = null
 
 fun main(args: Array<String>) {
+    println("\n*********Kotlin*********\n")
+    inputTicket()
+    println("Total tickets: " + ticket?.total)
+    println("Round-trip: " + ticket?.roundTrip)
+    println("Total: " + ticket?.totalAmout())
+}
 
+private fun inputTicket() {
+    var total: Int
+    var roundTrip: Int
+    println("Please enter number of tickets:")
+    total = checkNumber()
+    println("How many round-trip tickets:")
+    while (true) {
+        roundTrip = checkNumber()
+        if (roundTrip <= total) {
+            break
+        } else
+            println("Error,please enter again.")
+    }
+    ticket = ticketKotlin(total, roundTrip)
+}
+
+
+
+private fun checkNumber(): Int {
+    var number: Int
+    while (true) {
+        var readLine = readLine()
+        if (readLine!!.matches(Regex("\\d+"))) {
+            if (readLine.toInt() >= 0) {
+                number = readLine.toInt()
+                break
+            }
+            else println("Error,please enter again.")
+        } else println("Error,please enter again.")
+    }
+    return number
 }
