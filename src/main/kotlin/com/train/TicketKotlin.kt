@@ -6,7 +6,7 @@ package com.train
  * Describe
  */
 
-data class ticketKotlin(var total : Int, var roundTrip : Int, val single : Int = total-roundTrip){
+data class TicketKotlin(var total : Int, var roundTrip : Int, val single : Int = total-roundTrip){
     fun totalAmout(): Double {
         return single * 1000 + roundTrip.toDouble() * 0.9 * 2000.0
     }

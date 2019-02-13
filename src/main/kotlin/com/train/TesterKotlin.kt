@@ -1,5 +1,7 @@
 package com.train
 
+import java.util.*
+
 
 /**
  * Created by AlexHe on 2018-12-27.
@@ -17,45 +19,63 @@ Total: 7400
 
 
  */
-var ticket : ticketKotlin? = null
+var ticket : TicketKotlin? = null
+var leave = false
 
 fun main(args: Array<String>) {
     println("\n*********Kotlin*********\n")
-    inputTicket()
-    println("Total tickets: " + ticket?.total)
-    println("Round-trip: " + ticket?.roundTrip)
-    println("Total: " + ticket?.totalAmout())
+    while (true) {
+        inputTicket()
+        if (leave == true) {
+            println("leave!!")
+            break
+        }
+        println("Total tickets: " + ticket?.total)
+        println("Round-trip: " + ticket?.roundTrip)
+        println("Total: " + ticket?.totalAmout())
+        println("-----------------------------")
+    }
 }
 
+//確認是否leave
 private fun inputTicket() {
     var total: Int
-    var roundTrip: Int
-    println("Please enter number of tickets:")
-    total = checkNumber()
-    println("How many round-trip tickets:")
-    while (true) {
-        roundTrip = checkNumber()
-        if (roundTrip <= total) {
-            break
-        } else
-            println("Error,please enter again.")
+    var roundTrip = 0
+    if (leave == false) {
+        println("Please enter number of tickets:")
+        total = checkNumber()
+        if (total == -1) {
+            leave = true
+        }
+        while (leave == false) {
+            println("How many round-trip tickets:")
+            roundTrip = checkNumber()
+            if (roundTrip == -1) {
+                leave = true
+            }
+            if (roundTrip <= total) {
+                ticket = TicketKotlin(total, roundTrip)
+                break
+            } else
+                println("Error,please enter again.")
+        }
     }
-    ticket = ticketKotlin(total, roundTrip)
 }
 
 
-
+//確認是否大於-1且為數字
 private fun checkNumber(): Int {
     var number: Int
     while (true) {
-        var readLine = readLine()
-        if (readLine!!.matches(Regex("\\d+"))) {
-            if (readLine.toInt() >= 0) {
-                number = readLine.toInt()
+        val scanner = Scanner(System.`in`)
+        if (scanner.hasNextInt()) {
+            number = scanner.nextInt()
+            if (number < -1)
+                println("Error,please enter again.")
+            else
                 break
-            }
-            else println("Error,please enter again.")
-        } else println("Error,please enter again.")
+        } else
+            println("Error,please enter a number.")
     }
     return number
 }

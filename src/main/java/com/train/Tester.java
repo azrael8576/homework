@@ -19,42 +19,54 @@ import java.util.Scanner;
 
 public class Tester {
     private static Ticket ticket;
+    private static boolean leave = false;
     public static void main(String[] args) {
         System.out.println("\n*********Java*********\n");
-
-        inputTicket();
-        System.out.println("Total tickets: " + ticket.getTotal());
-        System.out.println("Round-trip: " + ticket.getRoundTrip());
-        System.out.println("Total: " + ticket.totalAmout());
-    }
-
-    private static void inputTicket() {
-        int total;
-        int roundTrip;
-        System.out.println("Please enter number of tickets:");
-        total = checkNumber();
-        System.out.println("How many round-trip tickets:");
-        while (true) {
-            roundTrip = checkNumber();
-            if (roundTrip <= total){
+        while (true){
+            inputTicket();
+            if (leave == true){
+                System.out.println("leave!!");
                 break;
             }
-            else System.out.println("Error,please enter again.");
+            System.out.println("Total tickets: " + ticket.getTotal());
+            System.out.println("Round-trip: " + ticket.getRoundTrip());
+            System.out.println("Total: " + ticket.totalAmout());
+            System.out.println("-----------------------------");
         }
-        ticket = new Ticket(total,roundTrip);
     }
 
-    //確認Input是否大於0且為數字
+    //確認是否leave
+    private static void inputTicket() {
+        int total;
+        int roundTrip = 0;
+        if (leave == false){
+            System.out.println("Please enter number of tickets:");
+            total = checkNumber();
+            if (total == -1) {leave = true;}
+            while (leave == false) {
+                System.out.println("How many round-trip tickets:");
+                roundTrip = checkNumber();
+                if (roundTrip == -1) {leave = true;}
+                if (roundTrip <= total){
+                    ticket = new Ticket(total,roundTrip);
+                    break;
+                }
+                else System.out.println("Error,please enter again.");
+            }
+        }
+    }
+
+    //確認是否大於-1且為數字
     private static int checkNumber() {
         int number;
         while (true){
             Scanner scanner = new Scanner(System.in);
             if (scanner.hasNextInt()) {
                 number = scanner.nextInt();
-                if (number < 0) System.out.println("Error,please enter again.");
+                if (number < -1) System.out.println("Error,please enter again.");
                 else break;
             }
-            else System.out.println("Error,please enter again.");
+            else System.out.println("Error,please enter a number.");
         }
         return number;
     }
